@@ -29,7 +29,7 @@ function App() {
   async function newContract() {
     const beneficiary = document.getElementById('beneficiary').value;
     const arbiter = document.getElementById('arbiter').value;
-    const value = ethers.utils.parseUnits(document.getElementById("Eth").value, 'ether')
+    const value = ethers.utils.parseEther(document.getElementById("Eth").value)
     console.log(value)
 
     const escrowContract = await deploy(signer, arbiter, beneficiary, value);
