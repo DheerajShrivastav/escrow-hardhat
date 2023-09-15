@@ -1,11 +1,18 @@
-import { ethers } from 'ethers';
-import Escrow from './artifacts/contracts/Escrow.sol/Escrow';
+import { ethers } from 'ethers'
+import Escrow from './artifacts/contracts/Escrow.sol/Escrow.json' // Changed the import
 
 export default async function deploy(signer, arbiter, beneficiary, value) {
-  const factory = new ethers.ContractFactory(
+  // The imported Escrow object should contain both 'abi' and 'bytecode' properties
+  const contract = new ethers.ContractFactory(
     Escrow.abi,
     Escrow.bytecode,
     signer
-  );
-  return factory.deploy(arbiter, beneficiary, { value });
+  )
+  const deployedContract = await contract.deploy(arbiter, beneficiary, {
+    value,
+  })
+
+  await deployedContract.deployed() // Wait for the contract to be deployed
+
+  return deployedContract
 }
